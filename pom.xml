@@ -8,11 +8,35 @@
     <artifactId>Smth</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>6</source>
+                    <target>6</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <modules>
         <module>Smthderby</module>
         <module>Smthsqlite</module>
+        <module>Smthhsqldb</module>
     </modules>
+
+    <repositories>
+        <repository>
+            <id>DAO-mvn-repo</id>
+            <url>https://raw.github.com/Mexahoid/DAO/mvn-repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <properties>
 
@@ -23,6 +47,11 @@
             <groupId>org.xeustechnologies</groupId>
             <artifactId>jcl-core</artifactId>
             <version>2.8</version>
+        </dependency>
+        <dependency>
+            <groupId>TDOPcustomDao</groupId>
+            <artifactId>TDOP-DAO</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

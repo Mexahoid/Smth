@@ -16,5 +16,11 @@
       <jdbc-driver>org.apache.derby.jdbc.EmbeddedDriver</jdbc-driver>
       <jdbc-url>jdbc:derby:$PROJECT_DIR$/db/derbydatabase</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="hsqldb" uuid="6894593a-01d5-48ef-9df9-7033fc4b7be0">
+      <driver-ref>hsqldb.local</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
+      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/db/hsqldb</jdbc-url>
+    </data-source>
   </component>
 </project>

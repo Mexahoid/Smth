@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Smth.iml" filepath="$PROJECT_DIR$/Smth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Smthderby/Smth-derby.iml" filepath="$PROJECT_DIR$/Smthderby/Smth-derby.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Smthsqlite/Smth-sqlite.iml" filepath="$PROJECT_DIR$/Smthsqlite/Smth-sqlite.iml" />
       <module fileurl="file://$PROJECT_DIR$/Smthderby/Smthderby.iml" filepath="$PROJECT_DIR$/Smthderby/Smthderby.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Smthhsqldb/Smthhsqldb.iml" filepath="$PROJECT_DIR$/Smthhsqldb/Smthhsqldb.iml" />
       <module fileurl="file://$PROJECT_DIR$/Smthsqlite/Smthsqlite.iml" filepath="$PROJECT_DIR$/Smthsqlite/Smthsqlite.iml" />
     </modules>
   </component>

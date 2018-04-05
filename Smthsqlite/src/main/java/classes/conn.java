@@ -4,86 +4,106 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class conn {
-    public static Connection conn;
-    public static Statement statmt;
-    public static ResultSet resSet;
+    private Connection conn;
+    private Statement statmt;
+    private ResultSet resSet;
 
-    // --------ПОДКЛЮЧЕНИЕ К БАЗЕ ДАННЫХ--------
-    public static void Conn() throws ClassNotFoundException, SQLException
+    conn() throws ClassNotFoundException, SQLException
     {
         conn = null;
         Class.forName("org.sqlite.JDBC");
-        conn = DriverManager.getConnection("jdbc:sqlite:D:/Projects/Smth/db/sqlitedatabase.s3db");
-
-        System.out.println("База Подключена!");
+        conn = DriverManager.getConnection("jdbc:sqlite:" + System.getProperty("user.dir") +"\\db\\sqlitedatabase.s3db");
+        statmt = conn.createStatement();
+        //System.out.println("База Подключена!");
     }
 
-    public static void InsertCourse(int nbr) throws SQLException
+    void InsertCourse(int nbr) throws SQLException
     {
-        statmt.execute("INSERT INTO main.COURSE ('NUMBER') VALUES (nbr)");
+        statmt.execute("INSERT INTO main.COURSE (NUMBER) VALUES (" + nbr + ")");
     }
 
-    public static void InsertGroup(int nbr, int course) throws SQLException{
-        statmt.execute("INSERT INTO main.GROUP ('NUMBER', 'COURSE_ID') " +
-                "VALUES (nbr, (SELECT 'ID' FROM 'COURSE' WHERE 'NUMBER' = course))");
+    void DeleteCourse(int nbr) throws SQLException
+    {
+        statmt.execute("DELETE FROM main.COURSE WHERE NUMBER = " + nbr);
     }
 
-    public static void InsertStudent(String name, int grp, int course) throws SQLException{
-        statmt.execute("INSERT INTO main.STUDENT ('NAME', 'GROUP_ID') " +
-                "VALUES (name, " +
-                "(SELECT 'ID' FROM " +
-                    "(SELECT * FROM main.GROUP WHERE 'COURSE_ID' =" +
-                        " (SELECT 'ID' FROM main.COURSE WHERE 'NUMBER' = course)" +
-                ") WHERE 'NUMBER' = grp))");
+    public void InsertGroup(int nbr, int course) throws SQLException{
+        statmt.execute("INSERT INTO main.GROUPS (NUMBER, COURSE_ID) " +
+                "VALUES (" + nbr + ", (SELECT COURSE.ID FROM main.COURSE WHERE COURSE.NUMBER = " + course + "))");
     }
 
-    public static void PrintCourses()  throws ClassNotFoundException, SQLException
+    public void DeleteGroup(int nbr, int course) throws SQLException
+    {
+        statmt.execute("DELETE FROM main.GROUPS WHERE NUMBER = " + nbr +
+                " AND COURSE_ID = (SELECT ID FROM main.COURSE WHERE NUMBER = " + course + ")");
+    }
+
+    public void InsertStudent(String name, int grp, int course) throws SQLException
+    {
+        statmt.execute("INSERT INTO main.STUDENT (NAME, GROUP_ID) " +
+                "VALUES (\'" + name + "\', (SELECT GROUPS.ID FROM main.GROUPS WHERE GROUPS.COURSE_ID = " +
+                        "(SELECT COURSE.ID FROM main.COURSE WHERE COURSE.NUMBER = " + course + ") AND GROUPS.NUMBER = " + grp + "))");
+    }
+
+    public void DeleteStudent(String name, int grp, int course) throws SQLException
+    {
+        statmt.execute("DELETE FROM main.STUDENT " +
+                "WHERE NAME = " + name + " AND GROUP_ID = (SELECT ID FROM " +
+                "(SELECT * FROM main.GROUPS WHERE COURSE_ID =" +
+                " (SELECT COURSE.ID FROM main.COURSE WHERE NUMBER = " + course + ")" +
+                " WHERE NUMBER = " + grp + "))");
+    }
+
+    public List<Integer> PrintCourses() throws SQLException
     {
         resSet = statmt.executeQuery("SELECT * FROM main.COURSE");
-
+        List<Integer> l = new LinkedList<Integer>();
         while(resSet.next())
         {
-            int num = resSet.getInt("")
-            String  name = resSet.getString("name");
-            String  phone = resSet.getString("phone");
-            System.out.println( "ID = " + id );
-            System.out.println( "name = " + name );
-            System.out.println( "phone = " + phone );
-            System.out.println();
+            int num = resSet.getInt("NUMBER");
+            l.add(num);
         }
+        return l;
     }
 
-
-    // -------- Вывод таблицы--------
-    public static void ReadDB() throws ClassNotFoundException, SQLException
+    public List<Integer> PrintCourseGroups(int coursenum) throws SQLException
     {
-        resSet = statmt.executeQuery("SELECT * FROM users");
-
+        resSet = statmt.executeQuery("SELECT * FROM main.GROUPS WHERE COURSE_ID = (SELECT ID FROM main.COURSE WHERE COURSE.NUMBER = " + coursenum + ")");
+        List<Integer> l = new LinkedList<Integer>();
         while(resSet.next())
         {
-            int id = resSet.getInt("id");
-            String  name = resSet.getString("name");
-            String  phone = resSet.getString("phone");
-            System.out.println( "ID = " + id );
-            System.out.println( "name = " + name );
-            System.out.println( "phone = " + phone );
-            System.out.println();
+            int num = resSet.getInt("NUMBER");
+            l.add(num);
         }
+        return l;
+    }
 
-        System.out.println("Таблица выведена");
+    public List<String> PrintGroupStudents(int groupnum, int coursenum) throws SQLException
+    {
+        resSet = statmt.executeQuery("SELECT * FROM main.STUDENT WHERE GROUP_ID = (SELECT ID FROM main.GROUPS WHERE " +
+                "GROUPS.NUMBER = " + groupnum +" AND GROUPS.COURSE_ID = (SELECT ID FROM main.COURSE WHERE COURSE.NUMBER = " + coursenum + "))");
+        List<String> l = new LinkedList<String>();
+        while(resSet.next())
+        {
+            String name = resSet.getString("NAME");
+            l.add(name);
+        }
+        return l;
     }
 
     // --------Закрытие--------
-    public static void CloseDB() throws ClassNotFoundException, SQLException
+    public void CloseDB() throws ClassNotFoundException, SQLException
     {
         conn.close();
         statmt.close();
         resSet.close();
 
-        System.out.println("Соединения закрыты");
+        System.out.println("Database stopped.");
     }
 
 }

@@ -6,14 +6,20 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="Smth-derby" />
+        <module name="Smth-sqlite" />
         <module name="Smthderby" />
+        <module name="Smthhsqldb" />
         <module name="Smthsqlite" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Smth" target="1.5" />
-      <module name="Smthderby" target="1.5" />
-      <module name="Smthsqlite" target="1.5" />
+      <module name="Smth" target="6" />
+      <module name="Smth-derby" target="6" />
+      <module name="Smth-sqlite" target="6" />
+      <module name="Smthderby" target="6" />
+      <module name="Smthhsqldb" target="6" />
+      <module name="Smthsqlite" target="6" />
     </bytecodeTargetLevel>
   </component>
 </project>
