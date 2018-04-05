@@ -15,11 +15,12 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="Smth" target="6" />
+      <module name="Smth (1)" target="6" />
       <module name="Smth-derby" target="6" />
       <module name="Smth-sqlite" target="6" />
-      <module name="Smthderby" target="6" />
-      <module name="Smthhsqldb" target="6" />
-      <module name="Smthsqlite" target="6" />
+      <module name="Smthderby" target="1.5" />
+      <module name="Smthhsqldb" target="1.5" />
+      <module name="Smthsqlite" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

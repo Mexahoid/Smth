@@ -18,14 +18,171 @@
                     <target>6</target>
                 </configuration>
             </plugin>
+
         </plugins>
     </build>
+    <properties>
+        <sqlite>Smthsqlite</sqlite>
+        <derby>Smthderby</derby>
+        <hsql>Smthhsqldb</hsql>
+    </properties>
 
-    <modules>
-        <module>Smthderby</module>
-        <module>Smthsqlite</module>
-        <module>Smthhsqldb</module>
-    </modules>
+
+    <profiles>
+        <profile>
+            <id>DERBY</id>
+            <modules>
+                <module>${derby}</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete>
+                                            <fileset dir="${basedir}/driver/" includes="*.jar" />
+                                        </delete>
+                                        <copy file="${basedir}/${derby}/target/${derby}-1.0-SNAPSHOT.jar"
+                                              tofile="${basedir}/driver/${derby}-1.0-SNAPSHOT.jar"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>test</classifier>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>SQLITE</id>
+            <modules>
+                <module>${sqlite}</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete>
+                                            <fileset dir="${basedir}/driver/" includes="*.jar" />
+                                        </delete>
+                                        <copy file="${basedir}/${sqlite}/target/${sqlite}-1.0-SNAPSHOT.jar"
+                                              tofile="${basedir}/driver/${sqlite}-1.0-SNAPSHOT.jar"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>test</classifier>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>HSQL</id>
+            <modules>
+                <module>${hsql}</module>
+            </modules>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>compile</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <delete>
+                                            <fileset dir="${basedir}/driver/" includes="*.jar" />
+                                        </delete>
+                                        <copy file="${basedir}/${hsql}/target/${hsql}-1.0-SNAPSHOT.jar"
+                                              tofile="${basedir}/driver/${hsql}-1.0-SNAPSHOT.jar"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <configuration>
+                            <skip>true</skip>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-jar-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                                <configuration>
+                                    <classifier>test</classifier>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
     <repositories>
         <repository>
@@ -38,9 +195,6 @@
         </repository>
     </repositories>
 
-    <properties>
-
-    </properties>
 
     <dependencies>
         <dependency>
